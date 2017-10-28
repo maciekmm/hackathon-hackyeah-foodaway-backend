@@ -24,7 +24,7 @@ var (
 )
 
 func nextSign() float64 {
-	r := rand.Intn(1)
+	r := rand.Intn(2)
 	if r > 0 {
 		return -1
 	}
