@@ -23,6 +23,7 @@ func (o *Offers) Register(router *mux.Router) {
 	router.Handle("/{id:[0-9]+}/", middleware.RequiresAuth(model.RoleUser, http.HandlerFunc(o.HandlePatchSingle))).Methods(http.MethodPatch)
 	router.Handle("/{id:[0-9]+}/", middleware.RequiresAuth(model.RoleUser, http.HandlerFunc(o.HandlePutSingle))).Methods(http.MethodPut)
 	router.Handle("/{id:[0-9]+}/", middleware.RequiresAuth(model.RoleUser, http.HandlerFunc(o.HandleDelete))).Methods(http.MethodDelete)
+	router.Handle("/user/{id:[0-9]+}/", middleware.RequiresAuth(model.RoleUser, http.HandlerFunc(o.HandleGetUser))).Methods(http.MethodGet)
 }
 
 func (o *Offers) HandleAdd(rw http.ResponseWriter, r *http.Request) {
@@ -90,6 +91,39 @@ func (o *Offers) HandleGetAll(rw http.ResponseWriter, r *http.Request) {
 	offers := []model.Offer{}
 	res := o.Database
 	if res := res.Find(&offers); res.Error != nil {
+		(&utils.ErrorResponse{
+			Errors:      []string{model.ErrOfferInternal.Error()},
+			DebugErrors: []string{res.Error.Error()},
+		}).Write(http.StatusInternalServerError, rw)
+		return
+	}
+
+	byt, err := json.Marshal(&offers)
+	if err != nil {
+		(&utils.ErrorResponse{
+			Errors:      []string{model.ErrOfferInternal.Error()},
+			DebugErrors: []string{err.Error()},
+		}).Write(http.StatusInternalServerError, rw)
+		return
+	}
+	rw.WriteHeader(http.StatusOK)
+	rw.Write(byt)
+}
+
+func (o *Offers) HandleGetUser(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		(&utils.ErrorResponse{
+			Errors:      []string{model.ErrOfferUserIDInvalid.Error()},
+			DebugErrors: []string{err.Error()},
+		}).Write(http.StatusBadRequest, rw)
+		return
+	}
+
+	offers := []model.Offer{}
+	res := o.Database
+	if res := res.Where("user_id = ?", id).Find(&offers); res.Error != nil {
 		(&utils.ErrorResponse{
 			Errors:      []string{model.ErrOfferInternal.Error()},
 			DebugErrors: []string{res.Error.Error()},

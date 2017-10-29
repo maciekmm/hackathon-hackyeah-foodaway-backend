@@ -10,6 +10,7 @@ import (
 var (
 	ErrOfferInternal           = errors.New("internal error")
 	ErrOfferIDInvalid          = errors.New("invalid id")
+	ErrOfferUserIDInvalid      = errors.New("invalid user id")
 	ErrOfferTitleInvalid       = errors.New("invalid title")
 	ErrOfferDescriptionInvalid = errors.New("invalid description")
 	ErrOfferLocationInvalid    = errors.New("invalid pickup location")

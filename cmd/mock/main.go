@@ -55,6 +55,7 @@ func main() {
 		longitude := CracowLongitude + math.Cos(angle)*radius
 		ind := rand.Intn(len(food))
 		offer := model.Offer{
+			UserID:      1,
 			Latitude:    &latitude,
 			Longitude:   &longitude,
 			Title:       food[ind],
