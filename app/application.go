@@ -15,6 +15,7 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/maciekmm/HackYeah/controller"
 	"github.com/maciekmm/HackYeah/model"
+	"github.com/rs/cors"
 )
 
 type Application struct {
@@ -80,9 +81,13 @@ out:
 }
 
 func (a *Application) Serve() error {
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"GET", "HEAD", "POST", "PUT", "OPTIONS"},
+	})
 	server := http.Server{
 		Addr:           ":3000",
-		Handler:        a.router,
+		Handler:        c.Handler(a.router),
 		ReadTimeout:    15 * time.Second,
 		WriteTimeout:   15 * time.Second,
 		MaxHeaderBytes: 1 << 20,
