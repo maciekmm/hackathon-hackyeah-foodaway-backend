@@ -21,7 +21,8 @@ const (
 )
 
 var (
-	food = []string{"Artichoke", "Arugula", "Asparagus", "Green, Purple, White", "Avocado", "Bamboo Shoots", "Bean Sprouts", "Beans", "Beet", "Belgian Endive", "Bell Pepper", "Bitter Melon/Bitter Gourd", "Bok Choy/Bok Choi/Pak Choy", "Broccoli", "Brussels Sprouts", "Burdock Root/Gobo", "Cabbage", "Green, Red, Savoy", "Calabash", "Capers", "Carrot", "Cassava/Yuca", "Cauliflower", "Celery", "Celery Root/Celeriac", "Celtuce", "Chayote", "Chinese Broccoli/Kai-lan", "Corn/Maize", "Baby Corn/Candle Corn", "Cucumber", "English Cucumber", "Gherkin", "Pickling Cucumbers", "Daikon Radish", "Edamame", "Eggplant/Aubergine", "Elephant Garlic", "Endive", "Curly/Frisee", "Escarole", "Fennel", "Fiddlehead", "Galangal", "Garlic", "Ginger", "Grape Leaves", "Green Beans/String Beans/Snap Beans", "Wax Beans", "Greens", "Amaranth Leaves/Chinese Spinach", "Beet Greens", "Collard Greens", "Dandelion Greens", "Kale", "Kohlrabi Greens", "Mustard Greens", "Rapini", "Spinach", "Swiss Chard", "Turnip Greens", "Hearts of Palm", "Horseradish", "Jerusalem Artichoke/Sunchokes", "Jícama", "Kale", "Curly", "Lacinato", "Ornamental", "Kohlrabi", "Leeks", "Lemongrass", "Lettuce", "Butterhead- Bibb, Boston", "Iceberg", "Leaf- Green Leaf, Red Leaf", "Romaine", "Lotus Root", "Lotus Seed", "Mushrooms", "Napa Cabbage", "Nopales", "Okra", "Olive", "Onion", "Green Onions/Scallions", "Parsley", "Parsley Root", "Parsnip", "Peas", "green peas", "snow peas", "sugar snap peas", "Peppers", "Plantain", "Potato", "Pumpkin", "Purslane", "Radicchio", "Radish", "Rutabaga", "Sea Vegetables", "Shallots", "Spinach", "Squash", "Sweet Potato", "Swiss Chard", "Taro", "Tomatillo", "Tomato", "Turnip", "Water Chestnut", "Water Spinach", "Watercress", "Winter Melon", "Yams", "Zucchini"}
+	food   = []string{"Grapes", "Melon", "Watermelon", "Tangerine", "Lemon", "Banana", "Pineapple", "Red Apple", "Green Apple", "Pear", "Peach", "Cherries", "Strawberry", "Kiwi Fruit", "Tomato", "Coconut", "Avocado", "Eggplant", "Potato", "Carrot", "Ear of Corn", "Hot Pepper", "Cucumber", "Broccoli", "Mushroom", "Peanuts", "Chestnut", "Bread", "Croissant", "Baguette Bread", "Pretzel", "Pancakes", "Cheese Wedge", "Meat on Bone", "Poultry Leg", "Cut of Meat", "Bacon", "Hamburger", "French Fries", "Pizza", "Hot Dog", "Sandwich", "Taco", "Burrito", "Cooking", "Pot of Food", "Bowl With Spoon", "Green Salad", "Popcorn", "Canned Food", "Bento Box", "Rice Cracker", "Rice Ball", "Cooked Rice", "Curry Rice", "Steaming Bowl", "Spaghetti", "Roasted Sweet Potato", "Oden", "Sushi", "Fried Shrimp", "Fish Cake With Swirl", "Dango", "Dumpling", "Fortune Cookie", "Takeout Box", "Soft Ice Cream", "Shaved Ice", "Ice Cream", "Doughnut", "Cookie", "Birthday Cake", "Shortcake", "Pie", "Chocolate Bar", "Candy", "Lollipop", "Custard", "Honey Pot", "Baby Bottle", "Glass of Milk", "Hot Beverage", "Teacup Without Handle", "Sake"}
+	emojis = []rune{'🍇', '🍈', '🍉', '🍊', '🍋', '🍌', '🍍', '🍎', '🍏', '🍐', '🍑', '🍒', '🍓', '🥝', '🍅', '🥥', '🥑', '🍆', '🥔', '🥕', '🌽', '🌶', '🥒', '🥦', '🍄', '🥜', '🌰', '🍞', '🥐', '🥖', '🥨', '🥞', '🧀', '🍖', '🍗', '🥩', '🥓', '🍔', '🍟', '🍕', '🌭', '🥪', '🌮', '🌯', '🍳', '🍲', '🥣', '🥗', '🍿', '🥫', '🍱', '🍘', '🍙', '🍚', '🍛', '🍜', '🍝', '🍠', '🍢', '🍣', '🍤', '🍥', '🍡', '🥟', '🥠', '🥡', '🍦', '🍧', '🍨', '🍩', '🍪', '🎂', '🍰', '🥧', '🍫', '🍬', '🍭', '🍮', '🍯', '🍼', '🥛', '☕', '🍵', '🍶', '🍾', '🍷', '🍸', '🍹', '🍺', '🍻', '🥂', '🥃', '🥤'}
 )
 
 func init() {
@@ -52,15 +53,16 @@ func main() {
 		radius := MaxDistance * rand.Float64()
 		latitude := CracowLatitude + math.Sin(angle)*radius
 		longitude := CracowLongitude + math.Cos(angle)*radius
-		typ := food[rand.Intn(len(food))]
+		ind := rand.Intn(len(food))
 		offer := model.Offer{
 			Latitude:    &latitude,
 			Longitude:   &longitude,
-			Title:       typ,
+			Title:       food[ind],
+			Picture:     string(emojis[ind]),
 			Expiration:  uint64(time.Now().Unix() + int64(rand.Intn(1000*60*60*24*7))),
 			PickupStart: uint64(time.Now().Unix()),
 			PickupEnd:   uint64(time.Now().Unix() + int64(rand.Intn(1000*60*60*24*7))),
-			Description: fmt.Sprintf("I have %d grams of %s to give away", int(rand.Float64()*1000), typ),
+			Description: fmt.Sprintf("I have %d grams of %s to give away", int(rand.Float64()*1000), food[ind]),
 		}
 		if err := offer.Add(app.Database); err != nil {
 			logger.Fatal(err)
