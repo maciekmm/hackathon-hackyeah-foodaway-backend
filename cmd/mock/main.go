@@ -21,8 +21,8 @@ const (
 )
 
 var (
-	food   = []string{"Grapes", "Melon", "Watermelon", "Tangerine", "Lemon", "Banana", "Pineapple", "Red Apple", "Green Apple", "Pear", "Peach", "Cherries", "Strawberry", "Kiwi Fruit", "Tomato", "Avocado", "Eggplant", "Potato", "Carrot", "Ear of Corn", "Hot Pepper", "Cucumber", "Broccoli", "Mushroom", "Peanuts", "Chestnut", "Bread", "Croissant", "Baguette Bread", "Pancakes", "Cheese Wedge", "Meat on Bone", "Poultry Leg", "Cut of Meat", "Bacon", "Hamburger", "French Fries", "Pizza", "Hot Dog", "Sandwich", "Taco", "Burrito", "Green Salad", "Popcorn", "Canned Food", "Bento Box", "Rice Cracker", "Rice Ball", "Cooked Rice", "Curry Rice", "Spaghetti", "Roasted Sweet Potato", "Oden", "Sushi", "Fried Shrimp", "Fish Cake With Swirl", "Dango", "Dumpling", "Fortune Cookie", "Soft Ice Cream", "Ice Cream", "Doughnut", "Cookie", "Birthday Cake", "Shortcake", "Pie", "Chocolate Bar", "Candy", "Lollipop", "Honey"}
-	emojis = []rune{'🍇', '🍈', '🍉', '🍊', '🍋', '🍌', '🍍', '🍎', '🍏', '🍐', '🍑', '🍒', '🍓', '🥝', '🍅', '🥑', '🍆', '🥔', '🥕', '🌽', '🌶', '🥒', '🥦', '🍄', '🥜', '🌰', '🍞', '🥐', '🥖', '🥞', '🧀', '🍖', '🍗', '🥩', '🥓', '🍔', '🍟', '🍕', '🌭', '🥪', '🌮', '🌯', '🥗', '🍿', '🥫', '🍱', '🍘', '🍙', '🍚', '🍛', '🍝', '🍠', '🍢', '🍣', '🍤', '🍥', '🍡', '🥟', '🥠', '🍦', '🍨', '🍩', '🍪', '🎂', '🍰', '🥧', '🍫', '🍬', '🍭', '🍯'}
+	food   = []string{"Grapes", "Melon", "Watermelon", "Tangerine", "Lemon", "Banana", "Pineapple", "Red Apple", "Green Apple", "Pear", "Peach", "Cherries", "Strawberry", "Kiwi Fruit", "Tomato", "Avocado", "Eggplant", "Potato", "Carrot", "Ear of Corn", "Hot Pepper", "Cucumber", "Mushroom", "Peanuts", "Chestnut", "Bread", "Croissant", "Baguette Bread", "Pancakes", "Cheese Wedge", "Meat on Bone", "Poultry Leg", "Bacon", "Hamburger", "French Fries", "Pizza", "Hot Dog", "Taco", "Burrito", "Green Salad", "Popcorn", "Bento Box", "Rice Cracker", "Rice Ball", "Cooked Rice", "Curry Rice", "Spaghetti", "Roasted Sweet Potato", "Oden", "Sushi", "Fried Shrimp", "Fish Cake With Swirl", "Dango", "Soft Ice Cream", "Ice Cream", "Doughnut", "Cookie", "Birthday Cake", "Shortcake", "Pie", "Chocolate Bar", "Candy", "Lollipop", "Honey"}
+	emojis = []rune{'🍇', '🍈', '🍉', '🍊', '🍋', '🍌', '🍍', '🍎', '🍏', '🍐', '🍑', '🍒', '🍓', '🥝', '🍅', '🥑', '🍆', '🥔', '🥕', '🌽', '🌶', '🥒', '🍄', '🥜', '🌰', '🍞', '🥐', '🥖', '🥞', '🧀', '🍖', '🍗', '🥓', '🍔', '🍟', '🍕', '🌭', '🌮', '🌯', '🥗', '🍿', '🍱', '🍘', '🍙', '🍚', '🍛', '🍝', '🍠', '🍢', '🍣', '🍤', '🍥', '🍡', '🍦', '🍨', '🍩', '🍪', '🎂', '🍰', '🥧', '🍫', '🍬', '🍭', '🍯'}
 )
 
 func init() {
@@ -59,9 +59,9 @@ func main() {
 			Longitude:   &longitude,
 			Title:       food[ind],
 			Picture:     string(emojis[ind]),
-			Expiration:  uint64(time.Now().Unix() + int64(rand.Intn(1000*60*60*24*7))),
+			Expiration:  uint64(time.Now().Unix() + int64(rand.Intn(60*60*24*7))),
 			PickupStart: uint64(time.Now().Unix()),
-			PickupEnd:   uint64(time.Now().Unix() + int64(rand.Intn(1000*60*60*24*7))),
+			PickupEnd:   uint64(time.Now().Unix() + int64(rand.Intn(60*60*24*7))),
 			Description: fmt.Sprintf("I have %d grams of %s to give away", int(rand.Float64()*1000), food[ind]),
 		}
 		if err := offer.Add(app.Database); err != nil {
